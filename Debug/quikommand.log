@@ -1,6 +1,0 @@
-﻿  quikommand.cpp
-C:\Users\jc16\OneDrive\Documents\Visual Studio 2019\My Code\quikommand\quikommand\keys.h(16,1): warning C4005: 'DELETE': macro redefinition
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\winnt.h(8943): message : see previous definition of 'DELETE'
-C:\Users\jc16\OneDrive\Documents\Visual Studio 2019\My Code\quikommand\quikommand\quikommand.cpp(114,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\jc16\OneDrive\Documents\Visual Studio 2019\My Code\quikommand\quikommand\quikommand.cpp(117,22): warning C4018: '<': signed/unsigned mismatch
-  quikommand.vcxproj -> C:\Users\jc16\OneDrive\Documents\Visual Studio 2019\My Code\quikommand\Debug\quikommand.exe
