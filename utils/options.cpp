@@ -103,15 +103,14 @@ void findMatches(string userText) {
 }
 
 int getScore(string userText, string command) {
-	int score = 0;
+	int score = (userText.length() > 0 && tolower(userText[0]) == tolower(command[0])) ? FIRST_LETTER_BONUS : 0;
 
-	for (unsigned int groupSize = 1; groupSize <= min(MAX_COMPARE_GSIZE, userText.length()); groupSize++) {
-		for (unsigned int i = 0; i < min(userText.length() - groupSize + 1, MAX_QUERY_LENGTH); i++) {
-			string search = userText.substr(i, groupSize);
-			regex searchRegex(search, regex::ECMAScript | regex::icase);
-			int numMatches = distance(sregex_iterator(command.begin(), command.end(), searchRegex), sregex_iterator());
-			score += numMatches * groupSize;
-		}
+	int groupSize = min(MAX_COMPARE_GSIZE, userText.length());
+	for (unsigned int i = 0; i < min(userText.length() - groupSize + 1, MAX_QUERY_LENGTH); i++) {
+		string search = userText.substr(i, groupSize);
+		regex searchRegex(search, regex::ECMAScript | regex::icase);
+		int numMatches = distance(sregex_iterator(command.begin(), command.end(), searchRegex), sregex_iterator());
+		score += numMatches * groupSize;
 	}
 
 	return score;

@@ -10,15 +10,20 @@ int main() {
 	string command = getCommand();
 	clear();
 	setColor(PROMPT_FG, PROMPT_BG, PROMPT_DC);
-	cout << "Command was ";
-	setColor(CMD_FG, CMD_BG, DC_UNDERLINE);
-	string action = getAction(command);
-	const char* a = action.c_str();
 
-	cout << command + "\n\n--> " + action + "\n\n";
-	setColor(PROMPT_FG, PROMPT_BG, PROMPT_DC);
-	
-	system(a);
+	if (command != "") {
+		cout << "Command was ";
+		setColor(CMD_FG, CMD_BG, DC_UNDERLINE);
+		string action = getAction(command);
+		const char* a = action.c_str();
+
+		cout << command + "\n\n--> " + action + "\n\n";
+		setColor(PROMPT_FG, PROMPT_BG, PROMPT_DC);
+
+		system(a);
+	} else {
+		cout << "No command given.\n";
+	}
 
 	return 0;
 }

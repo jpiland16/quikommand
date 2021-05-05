@@ -95,6 +95,8 @@ string getCommand() {
 
 			findMatches(command);
 
+			if (command.length() == 0) selectedOption = -1;
+
 			clear();
 			showPrompt();
 			cout << command;
@@ -104,5 +106,5 @@ string getCommand() {
 
 		}
 	}
-	return selectedOption >= 0 ? options[selectedOption] : command;
+	return selectedOption >= 0 && getNumMatches() > 0 ? options[selectedOption] : command;
 }
