@@ -6,6 +6,8 @@ string getCommand() {
 	showPrompt();
 
 	string command = "";
+	string* options = {};
+
 	int cursorPos = 0;
 	bool terminateEntry = false;
 
@@ -46,7 +48,7 @@ string getCommand() {
 					selectedOption = max(selectedOption - 1, -1);
 					break;
 				case DOWN:
-					selectedOption = min(selectedOption + 1, getOptLength());
+					selectedOption = min(selectedOption + 1, getNumMatches());
 					break;
 				case LEFT:
 					cursorPos = max(0, cursorPos - 1);
@@ -88,16 +90,18 @@ string getCommand() {
 			default:
 				command = command.substr(0, cursorPos) + c + command.substr(cursorPos);
 				cursorPos++;
-				selectedOption = -1;
+				selectedOption = 0;
 			}
+
+			findMatches(command);
 
 			showPrompt();
 			cout << command;
-			showOptions(selectedOption);
+			options = showOptions(selectedOption);
 
 			moveCursor(cursorPos);
 
 		}
 	}
-	return command;
+	return selectedOption >= 0 ? options[selectedOption] : command;
 }

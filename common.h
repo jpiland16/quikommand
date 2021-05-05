@@ -1,12 +1,15 @@
 #pragma once
 
 #include <iostream>
+#include <unordered_map>
+#include <map>
 #include <Windows.h>
 #include <conio.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
 #include <regex>
+#include <fstream>
 #include "keys.h"
 #include "colors.h"
 
@@ -33,12 +36,18 @@
 #define REGEX_LAST_WORD "\\s[^\\s]+\\s?$"
 #define REGEX_NEXT_WORD "^[^\\s]*\\s?"
 
+#define MAX_COMPARE_GSIZE 5
+
 using namespace std;
 
+void readFile();
 string getCommand();
 void clear();
 void moveCursor(int);
 void setColor(string, string, string);
 void showPrompt();
-void showOptions(int selectedOption);
-int getOptLength();
+string* showOptions(int selectedOption);
+void findMatches(string);
+int getNumMatches();
+int getScore(string, string);
+string getAction(string);
