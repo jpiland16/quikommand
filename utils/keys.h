@@ -13,7 +13,7 @@
 #define END 79
 #define DOWN 80
 #define PG_DN 81
-#define DELETE 83
+#define DEL 83
 
 #define CTRL_LEFT 115
 #define CTRL_RIGHT 116

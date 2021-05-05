@@ -2,22 +2,31 @@
 
 using namespace std;
 
+int winColumns = 30; // Dynamically updated later
+
 int main() {
+	checkWinSize();
 	readFile();
 	string command = getCommand();
 	clear();
 	setColor(PROMPT_FG, PROMPT_BG, PROMPT_DC);
 	cout << "Command was ";
-	setColor(OPT_FG, OPT_BG, DC_UNDERLINE);
-	cout << command + "\n--> " + getAction(command) + "\n\n";
-	setColor(PROMPT_FG, PROMPT_BG, PROMPT_DC);
-
-
+	setColor(CMD_FG, CMD_BG, DC_UNDERLINE);
 	string action = getAction(command);
 	const char* a = action.c_str();
+
+	cout << command + "\n\n--> " + action + "\n\n";
+	setColor(PROMPT_FG, PROMPT_BG, PROMPT_DC);
+	
 	system(a);
 
 	return 0;
+}
+
+void checkWinSize() {
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+	winColumns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
 }
 
 void showPrompt() {
@@ -34,8 +43,12 @@ void clear() {
 void moveCursor(int cursorPos) {
 	int row = 0;
 	string prompt = PROMPT;
+	while (cursorPos + prompt.length() > winColumns) {
+		cursorPos -= winColumns;
+		row++;
+	}
 	int col = prompt.length() + cursorPos + 1;
-	cout << ANSI_ESC + to_string(row) + ";" + to_string(col) + "f";
+	cout << ANSI_ESC + to_string(row + 1) + ";" + to_string(col) + "H";
 }
 
 void setColor(string fgColor, string bgColor, string displayCode) {

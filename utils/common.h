@@ -21,9 +21,9 @@
 #define PROMPT_BG BG_BLACK
 #define PROMPT_DC DC_NONE
 
-#define CMD_FG PROMPT_FG
+#define CMD_FG FG_LIGHTCYAN
 #define CMD_BG PROMPT_BG
-#define CMD_DC DC_UNDERLINE
+#define CMD_DC DC_NONE
 
 #define OPT_FG FG_DARKGRAY
 #define OPT_BG PROMPT_BG
@@ -37,9 +37,11 @@
 #define REGEX_NEXT_WORD "^[^\\s]*\\s?"
 
 #define MAX_COMPARE_GSIZE 5
+#define MAX_QUERY_LENGTH 15
 
 using namespace std;
 
+void checkWinSize();
 void readFile();
 string getCommand();
 void clear();
@@ -50,5 +52,6 @@ string* showOptions(int);
 void findMatches(string);
 int getNumMatches();
 int getScore(string, string);
+string makeRegexSafe(string);
 string getAction(string);
 string getSysCommand(string);

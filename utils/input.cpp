@@ -16,7 +16,7 @@ string getCommand() {
 	while (!terminateEntry) {
 
 		if (_kbhit()) {
-			clear();
+
 			char c = _getch();
 			char n;
 			string commandUpToCursor;
@@ -54,10 +54,10 @@ string getCommand() {
 					cursorPos = max(0, cursorPos - 1);
 					break;
 				case RIGHT:
-					cursorPos = min(cursorPos + 1, command.length());
+					cursorPos = min(cursorPos + 1, int(command.length()));
 					break;
-				case DELETE:
-					if (cursorPos < command.length()) {
+				case DEL:
+					if (cursorPos < int(command.length())) {
 						command = command.substr(0, cursorPos) + command.substr(cursorPos + 1, command.length() - cursorPos - 1);
 					}
 					break;
@@ -95,6 +95,7 @@ string getCommand() {
 
 			findMatches(command);
 
+			clear();
 			showPrompt();
 			cout << command;
 			options = showOptions(selectedOption);

@@ -71,10 +71,13 @@ void readFile() {
 
 string* showOptions(int selectedOption) {
 	int numOpts = min(MAX_OPTIONS_VISIBLE, getNumMatches());
+	string prompt = PROMPT;
+	int promptSize = prompt.size();
 	for (int i = 0; i < numOpts; i++) {
 		cout << "\n";
+		setColor(OPT_FG, OPT_BG, OPT_DC);
+		for (int j = 0; j < promptSize; j++) cout << " ";
 		if (i == selectedOption) setColor(OPT_SEL_FG, OPT_SEL_BG, OPT_SEL_DC);
-		else setColor(OPT_FG, OPT_BG, OPT_DC);
 		cout << matches[i];
 	}
 	return matches;
@@ -86,7 +89,7 @@ void findMatches(string userText) {
 	map<string, int> commandScores;
 
 	for (auto cmd : commandList) {
-		commandScores[cmd.first] = getScore(userText, cmd.first);
+		commandScores[cmd.first] = getScore(makeRegexSafe(userText), cmd.first);
 	}
 
 	auto sortedCmds = sort(commandScores);
@@ -94,6 +97,7 @@ void findMatches(string userText) {
 	for (auto iter = sortedCmds.rbegin(); iter != sortedCmds.rend(); iter++) {
 		if (iter->second == 0) break;
 		matches[matchCount++] = iter->first;
+		if (matchCount >= MAX_OPTIONS_VISIBLE) break;
 	}
 
 }
@@ -101,8 +105,8 @@ void findMatches(string userText) {
 int getScore(string userText, string command) {
 	int score = 0;
 
-	for (int groupSize = 1; groupSize <= min(MAX_COMPARE_GSIZE, userText.length()); groupSize++) {
-		for (int i = 0; i < userText.length() - groupSize + 1; i++) {
+	for (unsigned int groupSize = 1; groupSize <= min(MAX_COMPARE_GSIZE, userText.length()); groupSize++) {
+		for (unsigned int i = 0; i < min(userText.length() - groupSize + 1, MAX_QUERY_LENGTH); i++) {
 			string search = userText.substr(i, groupSize);
 			regex searchRegex(search, regex::ECMAScript | regex::icase);
 			int numMatches = distance(sregex_iterator(command.begin(), command.end(), searchRegex), sregex_iterator());
@@ -117,8 +121,15 @@ int getNumMatches() {
 	return matchCount;
 }
 
+string makeRegexSafe(string originalSearch) {
+	regex specialChars("([\\.\\+\\*\\?\\^\\$\\(\\)\\[\\]\\{\\}\\|\\\\])");
+	return regex_replace(originalSearch, specialChars, "");
+}
+
 string getAction(string command) {
-	if (commandList.count(command) > 0) return getSysCommand(commandList[command]);
+	if (commandList.count(command) > 0) {
+		return getSysCommand(commandList[command]);
+	}
 	return getSysCommand("goo:" + command);
 }
 
