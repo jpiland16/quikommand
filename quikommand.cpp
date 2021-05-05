@@ -11,6 +11,12 @@ int main() {
 	setColor(OPT_FG, OPT_BG, DC_UNDERLINE);
 	cout << command + "\n--> " + getAction(command) + "\n\n";
 	setColor(PROMPT_FG, PROMPT_BG, PROMPT_DC);
+
+
+	string action = getAction(command);
+	const char* a = action.c_str();
+	system(a);
+
 	return 0;
 }
 

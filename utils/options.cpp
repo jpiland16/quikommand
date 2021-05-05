@@ -118,8 +118,12 @@ int getNumMatches() {
 }
 
 string getAction(string command) {
-	if (commandList.count(command) > 0) {
-		return commandList[command];
-	}
-	return "Search Google for " + command;
+	if (commandList.count(command) > 0) return getSysCommand(commandList[command]);
+	return getSysCommand("goo:" + command);
+}
+
+string getSysCommand(string command) {
+	if (command.substr(0, 4) == "goo:") return "start msedge \"https://www.google.com/search?q=" + command.substr(4) + "\" --new-window";
+	if (command.substr(0, 4) == "web:") return "start msedge " + command.substr(4) + " --new-window"; 
+	return command.substr(4);
 }
