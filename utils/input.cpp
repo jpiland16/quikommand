@@ -17,6 +17,8 @@ string getCommand() {
 
 		if (_kbhit()) {
 
+			bool userSelecting = false;
+
 			char c = _getch();
 			char n;
 			string commandUpToCursor;
@@ -31,6 +33,7 @@ string getCommand() {
 				break;
 			case ENTER:
 				terminateEntry = true;
+				userSelecting = true;
 				break;
 			case NAVIGATION:
 
@@ -46,9 +49,11 @@ string getCommand() {
 					break;
 				case UP:
 					selectedOption = max(selectedOption - 1, -1);
+					userSelecting = true;
 					break;
 				case DOWN:
-					selectedOption = min(selectedOption + 1, getNumMatches());
+					selectedOption = min(selectedOption + 1, getNumMatches() - 1);
+					userSelecting = true;
 					break;
 				case LEFT:
 					cursorPos = max(0, cursorPos - 1);
@@ -93,13 +98,16 @@ string getCommand() {
 				selectedOption = 0;
 			}
 
-			findMatches(command);
-
+			if (!userSelecting) {
+				bool hasRealMatches = findMatches(command, false);
+				if (!hasRealMatches) selectedOption = -1;
+			}
+			
 			if (command.length() == 0) selectedOption = -1;
 
 			clear();
 			showPrompt();
-			cout << command;
+			showCommand(command);
 			options = showOptions(selectedOption);
 
 			moveCursor(cursorPos);

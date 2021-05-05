@@ -3,6 +3,7 @@
 using namespace std;
 
 int winColumns = 30; // Dynamically updated later
+int usableColumns = 16; // Dynamically updated later
 
 int main() {
 	checkWinSize();
@@ -32,6 +33,9 @@ void checkWinSize() {
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
 	winColumns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
+
+	string prompt = PROMPT;
+	usableColumns = winColumns - prompt.length();
 }
 
 void showPrompt() {
@@ -45,11 +49,26 @@ void clear() {
 	system("cls");
 }
 
+void showCommand(string command) {
+	int pos = 0;
+	int row = 0;
+	string prompt = PROMPT;
+	while (pos < command.length()) {
+		if (row > 0) {
+			cout << "\n";
+			for (int i = 0; i < prompt.length(); i++) cout << " ";
+		}
+		cout << command.substr(pos, usableColumns);
+		pos += usableColumns;
+		row++;
+	}
+}
+
 void moveCursor(int cursorPos) {
 	int row = 0;
 	string prompt = PROMPT;
-	while (cursorPos + prompt.length() > winColumns) {
-		cursorPos -= winColumns;
+	while (cursorPos > usableColumns) {
+		cursorPos -= usableColumns;
 		row++;
 	}
 	int col = prompt.length() + cursorPos + 1;

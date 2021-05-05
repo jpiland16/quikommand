@@ -37,7 +37,7 @@
 #define REGEX_NEXT_WORD "^[^\\s]*\\s?"
 
 #define MAX_COMPARE_GSIZE 5
-#define MAX_QUERY_LENGTH 20
+#define MAX_QUERY_LENGTH 15
 #define FIRST_LETTER_BONUS 2
 
 using namespace std;
@@ -49,10 +49,11 @@ void clear();
 void moveCursor(int);
 void setColor(string, string, string);
 void showPrompt();
+void showCommand(string);
 string* showOptions(int);
-void findMatches(string);
+bool findMatches(string, bool);
 int getNumMatches();
-int getScore(string, string);
+int getScore(string, string, bool);
 string makeRegexSafe(string);
 string getAction(string);
 string getSysCommand(string);

@@ -83,13 +83,13 @@ string* showOptions(int selectedOption) {
 	return matches;
 }
 
-void findMatches(string userText) {
+bool findMatches(string userText, bool countLetters) {
 	matchCount = 0;
 
 	map<string, int> commandScores;
 
 	for (auto cmd : commandList) {
-		commandScores[cmd.first] = getScore(makeRegexSafe(userText), cmd.first);
+		commandScores[cmd.first] = getScore(makeRegexSafe(userText), cmd.first, countLetters);
 	}
 
 	auto sortedCmds = sort(commandScores);
@@ -100,13 +100,35 @@ void findMatches(string userText) {
 		if (matchCount >= MAX_OPTIONS_VISIBLE) break;
 	}
 
+	if (matchCount <= 1 && countLetters == false) {
+		bool realMatches = matchCount > 0;
+
+		findMatches(userText, true);
+
+		// Top result could be a "fake" match.
+		return realMatches;
+	}
+
+	return true;
+
 }
 
-int getScore(string userText, string command) {
+int getScore(string userText, string command, bool countLetters) {
 	int score = (userText.length() > 0 && tolower(userText[0]) == tolower(command[0])) ? FIRST_LETTER_BONUS : 0;
 
 	int groupSize = min(MAX_COMPARE_GSIZE, userText.length());
-	for (unsigned int i = 0; i < min(userText.length() - groupSize + 1, MAX_QUERY_LENGTH); i++) {
+	int querySize = MAX_QUERY_LENGTH;
+
+	if (countLetters) {
+		groupSize = min(2, userText.length());
+		querySize = 6;
+	}
+
+	int possibleStart =  userText.length() - querySize - 1;
+
+	int start = possibleStart > 0 ? possibleStart : 0;
+
+	for (unsigned int i = start; i < userText.length() - groupSize + 1; i++) {
 		string search = userText.substr(i, groupSize);
 		regex searchRegex(search, regex::ECMAScript | regex::icase);
 		int numMatches = distance(sregex_iterator(command.begin(), command.end(), searchRegex), sregex_iterator());
