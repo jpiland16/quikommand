@@ -94,7 +94,10 @@ bool findMatches(string userText, bool countLetters) {
 
 	auto sortedCmds = sort(commandScores);
 
+	int topScore = 0;
+
 	for (auto iter = sortedCmds.rbegin(); iter != sortedCmds.rend(); iter++) {
+		topScore = max(topScore, iter->second);
 		if (iter->second == 0) break;
 		matches[matchCount++] = iter->first;
 		if (matchCount >= MAX_OPTIONS_VISIBLE) break;
@@ -109,7 +112,7 @@ bool findMatches(string userText, bool countLetters) {
 		return realMatches;
 	}
 
-	return true;
+	return userText.length() <= 5 || topScore > FIRST_LETTER_BONUS;
 
 }
 

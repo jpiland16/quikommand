@@ -40,6 +40,8 @@
 #define MAX_QUERY_LENGTH 15
 #define FIRST_LETTER_BONUS 2
 
+#define VERBOSE_OUTPUT false
+
 using namespace std;
 
 void checkWinSize();

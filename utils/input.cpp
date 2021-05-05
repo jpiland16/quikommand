@@ -3,7 +3,7 @@
 using namespace std;
 
 string getCommand() {
-	showPrompt();
+	cout << PROMPT;
 
 	string command = "";
 	string* options = {};
@@ -91,6 +91,9 @@ string getCommand() {
 				cursorPos = command.length();
 
 				break;
+
+			case ESCAPE:
+				return "";
 
 			default:
 				command = command.substr(0, cursorPos) + c + command.substr(cursorPos);

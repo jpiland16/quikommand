@@ -1,3 +1,5 @@
 private/
 Debug/
 *.vcxproj*
+*.obj
+*.exe

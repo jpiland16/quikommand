@@ -2,6 +2,7 @@
 
 #define ENTER 13
 #define BACKSPACE 8
+#define ESCAPE 27
 
 #define NAVIGATION -32
 

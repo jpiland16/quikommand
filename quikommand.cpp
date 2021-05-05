@@ -13,17 +13,17 @@ int main() {
 	setColor(PROMPT_FG, PROMPT_BG, PROMPT_DC);
 
 	if (command != "") {
-		cout << "Command was ";
-		setColor(CMD_FG, CMD_BG, DC_UNDERLINE);
+		if (VERBOSE_OUTPUT) cout << "Command was ";
+		if (VERBOSE_OUTPUT) setColor(CMD_FG, CMD_BG, DC_UNDERLINE);
 		string action = getAction(command);
 		const char* a = action.c_str();
 
-		cout << command + "\n\n--> " + action + "\n\n";
-		setColor(PROMPT_FG, PROMPT_BG, PROMPT_DC);
+		if (VERBOSE_OUTPUT) cout << command + "\n\n--> " + action + "\n\n";
+		if (VERBOSE_OUTPUT) setColor(PROMPT_FG, PROMPT_BG, PROMPT_DC);
 
 		system(a);
 	} else {
-		cout << "No command given.\n";
+		if (VERBOSE_OUTPUT) cout << "No command given.\n";
 	}
 
 	return 0;
