@@ -104,7 +104,7 @@ bool findMatches(string userText, bool countLetters) {
 	}
 
 	if (matchCount <= 1 && countLetters == false) {
-		bool realMatches = matchCount > 0;
+		bool realMatches = matchCount > 0 && topScore > FIRST_LETTER_BONUS;
 
 		findMatches(userText, true);
 
@@ -124,7 +124,7 @@ int getScore(string userText, string command, bool countLetters) {
 
 	if (countLetters) {
 		groupSize = min(2, userText.length());
-		querySize = 6;
+		querySize = 10;
 	}
 
 	int possibleStart =  userText.length() - querySize - 1;

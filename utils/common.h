@@ -37,7 +37,7 @@
 #define REGEX_NEXT_WORD "^[^\\s]*\\s?"
 
 #define MAX_COMPARE_GSIZE 5
-#define MAX_QUERY_LENGTH 15
+#define MAX_QUERY_LENGTH 20
 #define FIRST_LETTER_BONUS 2
 
 #define VERBOSE_OUTPUT false
