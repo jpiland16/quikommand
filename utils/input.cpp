@@ -45,8 +45,10 @@ string getCommand() {
 				}
 				break;
 			case ENTER:
-				terminateEntry = true;
-				userSelecting = true;
+				if (command != "") {
+					terminateEntry = true;
+					userSelecting = true;
+				}
 				break;
 			case NAVIGATION:
 
