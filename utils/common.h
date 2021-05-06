@@ -51,7 +51,7 @@
 using namespace std;
 
 void checkWinSize();
-void readFile();
+void readCommandFile();
 string getCommand();
 void clear();
 void moveCursor(int);
@@ -66,3 +66,6 @@ string makeRegexSafe(string);
 string getAction(string);
 string getSysCommand(string);
 void stat(string);
+void setCommandPrefix(string, string);
+void readHistory();
+void writeHistory();

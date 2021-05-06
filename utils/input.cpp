@@ -143,5 +143,8 @@ string getCommand() {
 
 		}
 	}
-	return selectedOption >= 0 && getNumMatches() > 0 ? options[selectedOption] : command;
+
+	if (selectedOption >= 0) setCommandPrefix(command, options[selectedOption]);
+
+	return selectedOption >= 0 ? options[selectedOption] : command;
 }

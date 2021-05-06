@@ -3,6 +3,7 @@
 using namespace std;
 
 unordered_map<string, string> commandList;
+unordered_map<string, string> commandsByPrefix;
 string matches[MAX_OPTIONS_VISIBLE];
 
 int matchCount = 0;
@@ -49,7 +50,7 @@ vector<pair<string, int>> sort(map<string, int>& M) {
 
 #pragma endregion
 
-void readFile() {
+void readCommandFile() {
 	string commandsFileText;
 	string line;
 	string command;
@@ -68,6 +69,41 @@ void readFile() {
 		commandsFile.close();
 	}
 	
+}
+
+void readHistory() {
+	string historyFileText;
+	string line;
+	string prefix;
+	string command;
+	smatch tabMatch;
+	regex tab("\\t");
+
+	ifstream historyFile("private/history.txt");
+	if (historyFile.is_open()) {
+		while (getline(historyFile, line)) {
+			regex_search(line, tabMatch, tab);
+			prefix = line.substr(0, tabMatch.position());
+			command = line.substr(tabMatch.position() + 1);
+			commandsByPrefix[prefix] = command;
+		}
+		historyFile.close();
+	}
+
+}
+
+void writeHistory() {
+	ofstream historyFile("private/history.txt");
+	if (historyFile.is_open()) {
+		for (auto iter = commandsByPrefix.begin(); iter != commandsByPrefix.end(); iter++) {
+			historyFile << iter->first << "\t" << iter->second << "\n";
+		}
+		historyFile.close();
+	}
+}
+
+void setCommandPrefix(string prefix, string command) {
+	commandsByPrefix[prefix] = command;
 }
 
 string* showOptions(int selectedOption) {
@@ -120,6 +156,9 @@ bool findMatches(string userText, bool countLetters) {
 }
 
 int getScore(string userText, string command, bool countLetters) {
+
+	if (commandsByPrefix.count(userText) == 1 && commandsByPrefix[userText] == command) return INT_MAX;
+
 	int score = (userText.length() > 0 && tolower(userText[0]) == tolower(command[0])) ? FIRST_LETTER_BONUS : 0;
 
 	int groupSize = min(MAX_COMPARE_GSIZE, userText.length());

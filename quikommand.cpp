@@ -8,7 +8,8 @@ int winRows = 17; // Dynamically updated later
 
 int main() {
 	checkWinSize();
-	readFile();
+	readCommandFile();
+	readHistory();
 	string command = getCommand();
 	clear();
 	setColor(PROMPT_FG, PROMPT_BG, PROMPT_DC);
@@ -27,6 +28,7 @@ int main() {
 		if (VERBOSE_OUTPUT) cout << "No command given.\n";
 	}
 
+	writeHistory();
 	return 0;
 }
 
