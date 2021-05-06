@@ -13,7 +13,7 @@
 #include "keys.h"
 #include "colors.h"
 
-#define PROMPT "quikommand ~$ "
+#define PROMPT "quikommand <=> "
 #define ANSI_ESC "\033["
 #define MAX_OPTIONS_VISIBLE 10
 
@@ -32,6 +32,12 @@
 #define OPT_SEL_FG OPT_FG
 #define OPT_SEL_BG OPT_BG
 #define OPT_SEL_DC DC_INVERT
+
+#define STAT_FG FG_LIGHTPINK
+#define STAT_BG PROMPT_BG
+#define STAT_DC DC_NONE
+
+#define STAT_ON true
 
 #define REGEX_LAST_WORD "\\s[^\\s]+\\s?$"
 #define REGEX_NEXT_WORD "^[^\\s]*\\s?"
@@ -59,3 +65,4 @@ int getScore(string, string, bool);
 string makeRegexSafe(string);
 string getAction(string);
 string getSysCommand(string);
+void stat(string);

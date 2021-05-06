@@ -2,6 +2,8 @@
 
 using namespace std;
 
+int numpadControls[10] = { CTRL_NUMPAD_ZERO, CTRL_NUMPAD_ONE, CTRL_NUMPAD_TWO, CTRL_NUMPAD_THREE, CTRL_NUMPAD_FOUR, CTRL_NUMPAD_SIX, CTRL_NUMPAD_SEVEN, CTRL_NUMPAD_EIGHT, CTRL_NUMPAD_NINE, CTRL_NUMPAD_SLASH };
+
 string getCommand() {
 	cout << PROMPT;
 
@@ -13,6 +15,8 @@ string getCommand() {
 
 	int selectedOption = -1;
 
+	string keys = "";
+
 	while (!terminateEntry) {
 
 		if (_kbhit()) {
@@ -21,13 +25,16 @@ string getCommand() {
 
 			char c = _getch();
 			char n;
+			int i;
 			string commandUpToCursor;
 			smatch lastWord;
+
+			keys += to_string(int(c)) + ",";
 
 			switch (c) {
 			case BACKSPACE:
 				if (cursorPos > 0) {
-					command = command.substr(0, cursorPos - 1) + command.substr(cursorPos);
+					command = command.substr(0, size_t(cursorPos) - 1) + command.substr(cursorPos);
 					cursorPos--;
 				}
 				break;
@@ -38,6 +45,8 @@ string getCommand() {
 			case NAVIGATION:
 
 				n = _getch();
+				keys += to_string(int(n)) + ",";
+
 				switch (n) {
 				case HOME:
 				case PG_UP:
@@ -63,7 +72,7 @@ string getCommand() {
 					break;
 				case DEL:
 					if (cursorPos < int(command.length())) {
-						command = command.substr(0, cursorPos) + command.substr(cursorPos + 1, command.length() - cursorPos - 1);
+						command = command.substr(0, cursorPos) + command.substr(size_t(cursorPos) + 1, command.length() - cursorPos - 1);
 					}
 					break;
 				case CTRL_LEFT:
@@ -76,9 +85,22 @@ string getCommand() {
 					regex_search(commandUpToCursor, lastWord, regex(REGEX_NEXT_WORD));
 					cursorPos += max(lastWord.position() + lastWord.length(), 0);
 					break;
-				default:
-					cout << "Naviagtion control for " << int(n) << " not set!";
+					
+				}
+				break;
 
+			case CTRL_NUMPAD:
+
+				n = _getch();
+				i = 0;
+				for (int ctrlId : numpadControls) {
+					if (ctrlId == n) {
+						selectedOption = i;
+						terminateEntry = true;
+						userSelecting = true;
+						break;
+					}
+					i++;
 				}
 				break;
 
@@ -96,9 +118,11 @@ string getCommand() {
 				return "";
 
 			default:
-				command = command.substr(0, cursorPos) + c + command.substr(cursorPos);
-				cursorPos++;
-				selectedOption = 0;
+				if (int(c) >= 32) {
+					command = command.substr(0, cursorPos) + c + command.substr(cursorPos);
+					cursorPos++;
+					selectedOption = 0;
+				}
 			}
 
 			if (!userSelecting) {
@@ -112,6 +136,8 @@ string getCommand() {
 			showPrompt();
 			showCommand(command);
 			options = showOptions(selectedOption);
+
+			//stat("Character pressed was " + to_string(int(c)));
 
 			moveCursor(cursorPos);
 

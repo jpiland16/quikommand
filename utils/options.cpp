@@ -6,6 +6,7 @@ unordered_map<string, string> commandList;
 string matches[MAX_OPTIONS_VISIBLE];
 
 int matchCount = 0;
+char numpadChars[10] = { '0', '1', '2', '3', '4', '6', '7', '8', '9', '/' };
 
 // SORTING
 #pragma region
@@ -74,11 +75,13 @@ string* showOptions(int selectedOption) {
 	string prompt = PROMPT;
 	int promptSize = prompt.size();
 	for (int i = 0; i < numOpts; i++) {
+		string addl = "   ";
+		if (i < 10) addl[0] = numpadChars[i];
 		cout << "\n";
 		setColor(OPT_FG, OPT_BG, OPT_DC);
-		for (int j = 0; j < promptSize; j++) cout << " ";
+		for (int j = 0; j < promptSize - 3; j++) cout << " ";
 		if (i == selectedOption) setColor(OPT_SEL_FG, OPT_SEL_BG, OPT_SEL_DC);
-		cout << matches[i];
+		cout << addl << matches[i];
 	}
 	return matches;
 }

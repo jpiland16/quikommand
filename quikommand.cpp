@@ -4,6 +4,7 @@ using namespace std;
 
 int winColumns = 30; // Dynamically updated later
 int usableColumns = 16; // Dynamically updated later
+int winRows = 17; // Dynamically updated later
 
 int main() {
 	checkWinSize();
@@ -33,6 +34,7 @@ void checkWinSize() {
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
 	winColumns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
+	winRows = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
 
 	string prompt = PROMPT;
 	usableColumns = winColumns - prompt.length();
@@ -78,4 +80,16 @@ void moveCursor(int cursorPos) {
 void setColor(string fgColor, string bgColor, string displayCode) {
 	cout << "\033[0m";
 	cout << ANSI_ESC + fgColor + bgColor + displayCode + "m";
+}
+
+void stat(string info) {
+	if (STAT_ON) {
+		setColor(STAT_FG, STAT_BG, STAT_DC);
+		int row = winRows - 1;
+		int col = 1;
+		cout << ANSI_ESC + to_string(row) + ";" + to_string(col) + "H";
+		for (int i = 0; i < winColumns; i++) cout << "_";
+		cout << ANSI_ESC + to_string(row + 1) + ";" + to_string(col) + "H";
+		cout << info;
+	}
 }
