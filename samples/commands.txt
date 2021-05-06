@@ -1,4 +1,4 @@
-help	sys:echo Welcome! Begin typing and use UP/DOWN arrows to move and ENTER to select.& echo Alternatively, press CTRL and the given NUMPAD key (to the left of the entry)&echo to select and execute a command.&echo.&echo Type 'about' and press ENTER for more information.&echo.&pause& quikommand.exe
+help	sys:help.bat
 about	web:https://github.com/jpiland16/quikommand
 exit	sys:exit
 edit commands	sys:notepad private/commands.txt
