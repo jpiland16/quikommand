@@ -85,6 +85,7 @@ void setColor(string fgColor, string bgColor, string displayCode) {
 
 void stat(string info) {
 	if (STAT_ON) {
+		info = info.substr(0, winColumns);
 		setColor(STAT_FG, STAT_BG, STAT_DC);
 		int row = winRows - 1;
 		int col = 1;

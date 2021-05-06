@@ -14,6 +14,7 @@
 #include "colors.h"
 
 #define PROMPT "quikommand <=> "
+#define DEFAULT_MESSAGE "quikommand v0.6 | type 'help' and press ENTER for help"
 #define ANSI_ESC "\033["
 #define MAX_OPTIONS_VISIBLE 10
 
@@ -33,7 +34,7 @@
 #define OPT_SEL_BG OPT_BG
 #define OPT_SEL_DC DC_INVERT
 
-#define STAT_FG FG_LIGHTPINK
+#define STAT_FG FG_LIGHTBLUE
 #define STAT_BG PROMPT_BG
 #define STAT_DC DC_NONE
 

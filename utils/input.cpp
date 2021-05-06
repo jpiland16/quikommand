@@ -5,7 +5,13 @@ using namespace std;
 int numpadControls[10] = { CTRL_NUMPAD_ZERO, CTRL_NUMPAD_ONE, CTRL_NUMPAD_TWO, CTRL_NUMPAD_THREE, CTRL_NUMPAD_FOUR, CTRL_NUMPAD_SIX, CTRL_NUMPAD_SEVEN, CTRL_NUMPAD_EIGHT, CTRL_NUMPAD_NINE, CTRL_NUMPAD_SLASH };
 
 string getCommand() {
+	system("cls");
+	cout << "\r";
+	setColor(PROMPT_FG, PROMPT_BG, PROMPT_DC);
 	cout << PROMPT;
+
+	stat(DEFAULT_MESSAGE);
+	moveCursor(0);
 
 	string command = "";
 	string* options = {};
@@ -138,6 +144,12 @@ string getCommand() {
 			options = showOptions(selectedOption);
 
 			//stat("Character pressed was " + to_string(int(c)));
+
+			string status = DEFAULT_MESSAGE;
+
+			if (command != "") status = "target: " + getAction(selectedOption >= 0 ? options[selectedOption] : command);
+
+			stat(status);
 
 			moveCursor(cursorPos);
 
