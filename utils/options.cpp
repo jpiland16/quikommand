@@ -200,7 +200,7 @@ string getAction(string command) {
 }
 
 string getSysCommand(string command) {
-	if (command.substr(0, 4) == "goo:") return "start msedge \"https://www.google.com/search?q=" + command.substr(4) + "\" --new-window";
+	if (command.substr(0, 4) == "goo:") return "start msedge \"https://www.google.com/search?q=" + url_encode(command.substr(4)) + "\" --new-window";
 	if (command.substr(0, 4) == "web:") return "start msedge " + command.substr(4) + " --new-window"; 
 	return command.substr(4);
 }

@@ -70,3 +70,4 @@ void stat(string);
 void setCommandPrefix(string, string);
 void readHistory();
 void writeHistory();
+string url_encode(const string&);
