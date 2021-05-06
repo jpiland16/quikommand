@@ -23,12 +23,11 @@ int main() {
 		if (VERBOSE_OUTPUT) cout << command + "\n\n--> " + action + "\n\n";
 		if (VERBOSE_OUTPUT) setColor(PROMPT_FG, PROMPT_BG, PROMPT_DC);
 
+		writeHistory();
 		system(a);
 	} else {
 		if (VERBOSE_OUTPUT) cout << "No command given.\n";
 	}
-
-	writeHistory();
 	return 0;
 }
 
