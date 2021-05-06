@@ -1,9 +1,3 @@
----
-title: quikommand
-created: '2021-05-06T14:36:12.387Z'
-modified: '2021-05-06T14:58:34.195Z'
----
-
 # quikommand
 A command-line utility for speeding up your workflow (currently for Windows only)
 
