@@ -84,14 +84,17 @@ void setColor(string fgColor, string bgColor, string displayCode) {
 }
 
 void stat(string info) {
-	if (STAT_ON) {
-		info = info.substr(0, winColumns);
+	if (STAT_ON) { 
+		int overflow = info.length() % winColumns;
+		int rowOffset = min(winRows - 2 - MAX_OPTIONS_VISIBLE, (info.length() - overflow) / winColumns);
 		setColor(STAT_FG, STAT_BG, STAT_DC);
-		int row = winRows - 1;
+		int row = winRows - 1 - rowOffset;
 		int col = 1;
 		cout << ANSI_ESC + to_string(row) + ";" + to_string(col) + "H";
 		for (int i = 0; i < winColumns; i++) cout << "_";
-		cout << ANSI_ESC + to_string(row + 1) + ";" + to_string(col) + "H";
-		cout << info;
+		for (int i = 0; i <= rowOffset; i++) {
+			cout << ANSI_ESC + to_string(row + 1 + i) + ";" + to_string(col) + "H";
+			cout << info.substr(i * winColumns, winColumns);
+		}
 	}
 }
