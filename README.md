@@ -29,3 +29,7 @@ The file `commands.txt` should be located in a subfolder called `private` (where
  - `goo:` - for a search on google.com
  - `web:` - to launch the web browser (in this case, `msedge` - see code)
  - `sys:` - to execute a system command
+
+
+ ### A note on matching
+ If a match is close enough, then the topmost option will be preselected. Otherwise, pressing ENTER will default to searching the web with the given command. 
