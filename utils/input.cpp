@@ -101,9 +101,11 @@ string getCommand() {
 				i = 0;
 				for (int ctrlId : numpadControls) {
 					if (ctrlId == n) {
-						selectedOption = i;
-						terminateEntry = true;
-						userSelecting = true;
+						if (i < getNumMatches()) {
+							selectedOption = i;
+							terminateEntry = true;
+							userSelecting = true;
+						}
 						break;
 					}
 					i++;
