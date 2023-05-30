@@ -17,7 +17,7 @@ int main() {
 	if (command != "") {
 		if (VERBOSE_OUTPUT) cout << "Command was ";
 		if (VERBOSE_OUTPUT) setColor(CMD_FG, CMD_BG, DC_UNDERLINE);
-		string action = getAction(command);
+		string action = getAction(command, true);
 		const char* a = action.c_str();
 
 		if (VERBOSE_OUTPUT) cout << command + "\n\n--> " + action + "\n\n";

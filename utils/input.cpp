@@ -151,7 +151,7 @@ string getCommand() {
 
 			string status = DEFAULT_MESSAGE;
 
-			if (command != "") status = "target: " + getAction(selectedOption >= 0 ? options[selectedOption] : command);
+			if (command != "") status = "target: " + getAction(selectedOption >= 0 ? options[selectedOption] : command, false);
 
 			stat(status);
 

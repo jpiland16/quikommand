@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <map>
 #include <Windows.h>
+#include <WinUser.h>
 #include <conio.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -64,8 +65,8 @@ bool findMatches(string, bool);
 int getNumMatches();
 int getScore(string, string, bool);
 string makeRegexSafe(string);
-string getAction(string);
-string getSysCommand(string);
+string getAction(string, bool);
+string getSysCommand(string, bool);
 void stat(string);
 void setCommandPrefix(string, string);
 void readHistory();

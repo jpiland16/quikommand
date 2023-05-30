@@ -61,6 +61,7 @@ void readCommandFile() {
 	ifstream commandsFile ("private/commands.txt");
 	if (commandsFile.is_open()) {
 		while (getline(commandsFile, line)) {
+			if (line[0] == '#') continue;
 			regex_search(line, tabMatch, tab);
 			command = line.substr(0, tabMatch.position());
 			action = line.substr(tabMatch.position() + 1);
@@ -192,15 +193,27 @@ string makeRegexSafe(string originalSearch) {
 	return regex_replace(originalSearch, specialChars, "");
 }
 
-string getAction(string command) {
+string getAction(string command, bool performBackgroundActions) {
 	if (commandList.count(command) > 0) {
-		return getSysCommand(commandList[command]);
+		return getSysCommand(commandList[command], performBackgroundActions);
 	}
-	return getSysCommand("goo:" + command);
+	return getSysCommand("goo:" + command, performBackgroundActions);
 }
 
-string getSysCommand(string command) {
-	if (command.substr(0, 4) == "goo:") return "start msedge \"https://www.google.com/search?q=" + url_encode(command.substr(4)) + "\" --new-window";
-	if (command.substr(0, 4) == "web:") return "start msedge " + command.substr(4) + " --new-window"; 
+string getSysCommand(string command, bool performBackgroundActions) {
+	if (command.substr(0, 4) == "goo:") return "start chrome \"https://www.google.com/search?q=" + url_encode(command.substr(4)) + "\" --new-window";
+	if (command.substr(0, 4) == "web:") return "start chrome " + command.substr(4) + " --new-window"; 
+	if (command.substr(0, 4) == "cpy:") {
+		if (performBackgroundActions) {
+			HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, command.length() - 3);
+			memcpy(GlobalLock(hMem), command.substr(4).c_str(), command.length() - 3);
+			GlobalUnlock(hMem);
+			OpenClipboard(0);
+			EmptyClipboard();
+			SetClipboardData(CF_TEXT, hMem);
+			CloseClipboard();
+		}
+		return "copy " + command.substr(4);
+	}
 	return command.substr(4);
 }
